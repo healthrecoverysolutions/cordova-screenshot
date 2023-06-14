@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Base64;
 import android.view.TextureView;
@@ -221,7 +222,7 @@ public class Screenshot extends CordovaPlugin {
         mArgs = args;
 
         if (action.equals("saveScreenshot")) {
-            if(PermissionHelper.hasPermission(this, PERMISSIONS[0])) {
+            if(Build.VERSION.SDK_INT >= 30 || PermissionHelper.hasPermission(this, PERMISSIONS[0])) { // WRITE_EXTERNAL_STORAGE is deprecated from 33 and does not have impact since 30+ SDK
                 saveScreenshot();
             } else {
                 PermissionHelper.requestPermissions(this, SAVE_SCREENSHOT_SEC, PERMISSIONS);
